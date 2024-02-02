@@ -50,16 +50,30 @@
             return Math.ceil(((date - oneJan) / millisecsInDay + oneJan.getDay() + 1) / 7);
         }
 
-      // Create a JSON object for the current day's lessons
-      var lessonsJSON = {
-          "Week": currentWeek,
-          "Day": day,
-          "Lessons": lessons
-      };
+  // Create a JSON object for the current day's lessons
+  var lessonsJSON = {
+      "Week": currentWeek,
+      "Day": day,
+      "Lessons": lessons
+  };
 
-      // Display the lessons in JSON format as raw text
-      document.write(JSON.stringify(lessonsJSON, null, 2));
-      
-    </script>
+  // Convert JSON to string
+  var jsonStr = JSON.stringify(lessonsJSON, null, 2);
+
+  // Create a Blob from the JSON string
+  var blob = new Blob([jsonStr], { type: 'application/json' });
+
+  // Create a download link
+  var link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'lessons.json';
+
+  // Append the link to the document and trigger a click to initiate the download
+  document.body.appendChild(link);
+  link.click();
+
+  // Remove the link from the document after the click event
+  document.body.removeChild(link);
+  </script>
 </body>
 </html>
